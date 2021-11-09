@@ -1,0 +1,638 @@
+$primaryColor: rgb(255, 255, 255);
+$containerWidth: 1400px;
+$textColor: rgb(255, 255, 255);
+$headerWidth: $containerWidth;
+$fadeinTime: 2s;
+$secondaryColor: #f05;
+$headerHeight: 50px;
+$defaultTextSize: 20px;
+$mainShadow: 0 4px 8px 0 rgba(158, 158, 158, 0.2), 0 6px 20px 0 rgba(168, 168, 168, 0.19);
+
+@mixin vendor-prefix($name, $value) {
+  @each $vendor in ("-webkit-", "-moz-", "-ms-", "-o-", "") {
+    #{$vendor}#{$name}: #{$value};
+  }
+}
+
+@mixin bp($point) {
+  @if $point == xlarge-b {
+    @media (max-width: 1600px) {
+      @content;
+    }
+  } @else if $point == large-b {
+    @media (max-width: 1250px) {
+      @content;
+    }
+  } @else if $point == med-b {
+    @media (max-width: $containerWidth) {
+      @content;
+    }
+  } @else if $point == small-b {
+    @media (max-width: 995px) {
+      @content;
+    }
+  }
+}
+
+ul {
+  display: block;
+  list-style-type: disc;
+  margin: 0;
+  padding: 0;
+  display: block;
+  list-style-type: disc;
+}
+
+h1 {
+  display: block;
+  font-size: 2em;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+.sampleFlex {
+  display: flex;
+
+  @include bp(small-b) {
+    flex-direction: column-reverse;
+  }
+}
+
+.pieContainer {
+  width: 100%;
+
+  position: sticky;
+  position: -webkit-sticky;
+
+  top: 90px;
+  align-self: flex-start;
+  flex-direction: "column";
+  @include bp(small-b) {
+    width: 100%;
+    position: relative;
+    top: auto;
+  }
+}
+
+.code {
+  width: 70%;
+
+  @include bp(small-b) {
+    width: 100%;
+  }
+}
+
+.flipperContainer {
+  border-radius: 5%;
+  border: 8px solid black;
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  height: 100%;
+  position: relative;
+  text-align: center;
+
+  @include vendor-prefix(transition, 0.8s);
+  @include vendor-prefix(transform-style, preserve-3d);
+
+  &Click {
+    @include vendor-prefix(transform, rotateY(180deg));
+  }
+}
+
+@keyframes wiggle {
+  0% {
+    @include vendor-prefix(transform, rotate(0deg));
+  }
+  25% {
+    @include vendor-prefix(transform, rotate(0deg));
+  }
+  50% {
+    @include vendor-prefix(transform, rotate(5deg));
+  }
+  75% {
+    @include vendor-prefix(transform, rotate(-5deg));
+  }
+  100% {
+    @include vendor-prefix(transform, rotate(0deg));
+  }
+}
+
+.winText {
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation: wiggle 2.5s infinite;
+  background-color: rgba(white, 0.8);
+  border: 5px solid rgb(34, 34, 34);
+  color: $secondaryColor;
+
+  position: absolute;
+  width: 390px;
+  padding: 30px;
+  z-index: 10;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 150px;
+  top: 20%;
+
+  @include bp(small-b) {
+    top: 15%;
+    font-size: 100px;
+    width: 250px;
+    padding: 10px;
+  }
+}
+
+.flipper {
+  background: linear-gradient(322deg, 
+      #ba4aff, rgba(#ba4aff, 0) 70%),
+    linear-gradient(178deg,
+      #008aff, rgba(#008aff, 0) 70%),
+    linear-gradient(24deg,
+      #00ffc6, rgba(#00ffc6, 0) 35%);
+
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  @include vendor-prefix(backface-visibility, hidden);
+  @include vendor-prefix(transform, rotateY(0deg));
+
+  background-color: #bbb;
+  color: black;
+
+  &::before {
+    content: "";
+    background: rgba(white, 0.2);
+    width: 60%;
+    height: 100%;
+    top: 0%;
+    left: -125%;
+    @include vendor-prefix(transform, skew(45deg));
+    position: absolute;
+    @include vendor-prefix(transition, left 500ms ease-out);
+  }
+  &:hover {
+    &::before {
+      left: 150%;
+    }
+  }
+  overflow: hidden;
+}
+
+.flipperBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  @include vendor-prefix(backface-visibility, hidden);
+  @include vendor-prefix(transform, rotateY(180deg));
+  background-color: rgb(34, 34, 34);
+  color: white;
+
+  div {
+    padding: 5%;
+    height: 100%;
+    width: 100%;
+    border: 8px solid white;
+    @include bp(small-b) {
+      border: none;
+    }
+  }
+}
+
+.svgIcon {
+  @include vendor-prefix(transform, scale(6));
+  top: 38%;
+  position: relative;
+  @include bp(small-b) {
+    @include vendor-prefix(transform, scale(2));
+  }
+}
+
+.button {
+  width: 100px;
+  height: 40px;
+  color: $primaryColor;
+  text-decoration: none;
+  font-size: $defaultTextSize;
+  background-color: rgb(241, 241, 241);
+
+  margin-right: 10px;
+  text-align: center;
+  &eheader {
+    @extend .button;
+    border-width: 3px;
+
+    box-shadow: $mainShadow;
+    width: 200px;
+    height: $headerHeight;
+    line-height: $headerHeight;
+    color: rgb(73, 73, 73);
+
+    white-space: nowrap;
+  }
+
+  &eheader:hover {
+    color: $secondaryColor;
+  }
+
+  &elogo {
+    @extend .button;
+    border-width: 3px;
+    font-size: 25px;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+    width: 200px;
+    background-color: $secondaryColor;
+    color: rgb(255, 255, 255);
+    height: $headerHeight;
+    line-height: $headerHeight;
+    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 12%);
+    border-radius: 5px;
+
+    @include bp(small-b) {
+      padding: 10px;
+      font-size: 15px;
+    }
+  }
+}
+
+body {
+  margin: 0;
+}
+
+@keyframes slideContainer {
+  0% {
+    @include vendor-prefix(transform, translateX(-400%));
+  }
+}
+
+@keyframes slideContainer3 {
+  0% {
+    @include vendor-prefix(transform, translateX(-400%) skew(-400deg));
+  }
+}
+
+.myWork {
+  display: flex;
+  flex-wrap: wrap;
+  width: 75%;
+  text-align: left;
+  margin-top: 30px;
+}
+
+.myWorkInner {
+  font-size: 30px;
+  width: 25%;
+
+  @include bp(small-b) {
+    width: 50%;
+    font-size: 15px;
+  }
+}
+
+.pieTitle {
+  color: #6b6b6b;
+}
+
+.myWorkTitle {
+  text-decoration: underline;
+  text-decoration-color: rgb(216, 17, 17);
+}
+
+.slideContainer {
+  animation: slideContainer 2.5s;
+
+  position: relative;
+  width: 100%;
+  background-color: $secondaryColor;
+  z-index: -2;
+
+  align-items: center; /* align vertical */
+  @include bp(small-b) {
+  }
+}
+
+.innerslideContainerBottom {
+  border-left: 3px solid black;
+  box-shadow: 0 8px 16px 0 rgb(0 0 0 / 12%);
+  border-bottom: 2px solid rgb(185, 185, 185);
+  animation: slideContainer2 2.5s;
+  @include vendor-prefix(transform, translateX(-30%) skew(-20deg));
+  width: 100%;
+  position: absolute;
+  height: 101%;
+  z-index: -1;
+  background-color: rgb(240, 240, 240);
+  @include bp(small-b) {
+    @include vendor-prefix(transform, translateX(-30%) skew(0));
+  }
+}
+
+.innerslideContainerBottomText {
+  @extend .innerslideContainerBottom;
+  animation: slideContainer4 2.5s;
+  @include vendor-prefix(transform, translateX(-10%) skew(-20deg));
+  @include bp(small-b) {
+    @include vendor-prefix(transform, translateX(-10%) skew(0));
+  }
+}
+
+.innerText {
+  width: 100%;
+  z-index: 10;
+  font-size: 50px;
+  color: rgb(100, 100, 100);
+  @include bp(small-b) {
+    font-size: 40px;
+    left: 0px;
+  }
+}
+
+.mobileHeader {
+  display: none;
+  @include bp(small-b) {
+    display: initial;
+  }
+}
+
+.headerIcons {
+  a {
+    color: rgba(130, 130, 130, 1);
+  }
+
+  margin-top: 12px;
+}
+
+.circularLandscape {
+  display: inline-block;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  box-shadow: 0 0 30px rgb(82, 82, 82);
+  img {
+    width: auto;
+    height: 100%;
+  }
+}
+
+.headerIconsMobile {
+  @extend .headerIcons;
+  position: absolute;
+  right: 0;
+}
+
+@keyframes imgPop {
+  0% {
+    @include vendor-prefix(transform, scale(0) translateZ(10000px));
+  }
+}
+
+@keyframes imgCont {
+  0% {
+    @include vendor-prefix(transform, rotate(0deg) skew(20deg));
+  }
+  100% {
+    @include vendor-prefix(transform, rotate(360deg) skew(20deg));
+  }
+}
+
+.popContainer {
+  border-radius: 5%;
+  border: 0px solid black;
+  animation: imgPop 1s;
+  justify-content: center;
+  align-content: center;
+  display: flex;
+  @include vendor-prefix(transform, scale(1) translateZ(10000px));
+
+  &::before {
+    content: "";
+    animation: imgCont 3s linear infinite;
+    background: linear-gradient(#ba4aff, #008aff);
+    position: absolute;
+    width: 200px;
+    height: 200%;
+    top: -50%;
+  }
+}
+
+.imgTransform {
+  border: 6px solid black;
+  border-radius: 5%;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.header {
+  @extend .center;
+  @include bp(small-b) {
+    display: none;
+  }
+  @include vendor-prefix(transform, translateZ(300px));
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 100;
+  background-color: white;
+  border-radius: 5px;
+  width: $headerWidth;
+  margin-top: 20px;
+  box-shadow: 0 4px 16px 0 rgb(0 0 0 / 12%);
+  display: flex;
+  padding: 10px;
+  min-height: $headerHeight;
+}
+@keyframes slideInFromLeft {
+  0% {
+    @include vendor-prefix(transform, translateY(-400%));
+  }
+  100% {
+    @include vendor-prefix(transform, translateY(0));
+  }
+}
+
+.initialCardAnim {
+  animation: slideInFromLeft 0.5s;
+  margin: 2%;
+  width: 21%;
+  height: 200px;
+  @include bp(small-b) {
+    height: 100px;
+    width: 28%;
+  }
+}
+
+.body {
+  margin-top: $headerHeight + 60;
+}
+
+.boxText {
+  @include bp(small-b) {
+    font-size: 60px;
+  }
+
+  font-size: 120px;
+  font-weight: 1500;
+  color: rgb(61, 61, 61);
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+
+  &titleabout {
+    @extend .boxText;
+  }
+
+  &ebase {
+    @include vendor-prefix(transform, none);
+    visibility: visible;
+  }
+
+  &eabout {
+    color: rgb(80, 80, 80);
+    font-size: 23px;
+    margin-top: -20px;
+    text-align: left;
+    border-left-color: $secondaryColor;
+    border-left-width: 5px;
+    border-left-style: solid;
+    padding-left: 20px;
+
+    @include bp(small-b) {
+      font-size: 12px;
+    }
+    span {
+      padding-bottom: 10px;
+    }
+  }
+}
+
+.me {
+  margin-top: 60px;
+}
+
+.smolText {
+  font-size: 15px;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.secondaryColor {
+  color: $secondaryColor;
+}
+
+.fadeInSection {
+  @include vendor-prefix(transform, translateX(-60vh));
+  @include vendor-prefix(transition, "opacity 1s ease-out, transform 0.7s ease-out");
+  opacity: 0;
+  visibility: hidden;
+  will-change: opacity, visibility;
+}
+.fadeInSection.isVisible {
+  @include vendor-prefix(transform, none);
+  opacity: 1;
+  visibility: visible;
+}
+
+.myInfo {
+  font-size: 25px;
+  @include bp(small-b) {
+    font-size: 16px;
+  }
+}
+
+.aboutBottom {
+  @include bp(small-b) {
+    font-size: 12px;
+  }
+  overflow: hidden;
+  border-top: 3px solid $secondaryColor;
+}
+
+.flexWrap {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  @include bp(small-b) {
+    flex-direction: column;
+  }
+}
+
+.imageHolder {
+  @include vendor-prefix(transform, translateX(-60vh));
+  @include vendor-prefix(transition, "opacity 1s ease-out, transform 0.5s ease-out");
+  display: inline;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  will-change: opacity, visibility;
+  width: 20%;
+  padding: 5px;
+  @include bp(small-b) {
+    width: 100%;
+  }
+}
+
+.imageHolder.isVisible {
+  @include vendor-prefix(transform, none);
+  opacity: 1;
+  visibility: visible;
+}
+
+.imageInside {
+  position: relative;
+  width: 100%;
+  border-radius: 5%;
+  border: 10px solid #292929;
+}
+
+.headerFlexLeft {
+  width: 50%;
+}
+
+.headerFlexRight {
+  width: 50%;
+}
+
+.headerFlexRightInner {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.headerFlexLeftInner {
+  display: flex;
+}
+
+.center {
+  @include bp(med-b) {
+    width: 90%;
+  }
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  width: $containerWidth;
+  text-align: center;
+  align-content: center;
+}
+
+.mainContainer {
+  @extend .center;
+}
+
+html {
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #e5e5f7;
+  background-image: linear-gradient(#c7c7c7 1px, transparent 1px), linear-gradient(to right, #ebebeb 1px, #ffffff 1px);
+  background-size: 50px 50px;
+}

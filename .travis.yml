@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+  - 12
+  # Install terraform
+before_install:
+  - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.15.0/terraform_0.15.0_linux_amd64.zip
+  - unzip /tmp/terraform.zip -d /tmp
+  - mv /tmp/terraform ~/bin
+  - export PATH="~/bin:$PATH"
+deploy:
+- provider: script
+  skip_cleanup: true
+  script: bash deploy.sh -var AWS_ACCESS_KEY=$AWS_ACCESS_KEY AWS_SECRET_KEY=$AWS_SECRET_KEY
+  on:
+    branch: main
+- provider: s3
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  bucket: "crm-react"
+  skip_cleanup: true
+  local_dir: dist
+  region: us-east-2
+  on:
+    branch: main
